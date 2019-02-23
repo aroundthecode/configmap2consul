@@ -1,0 +1,23 @@
+# Default values for chart
+
+consul:
+  replicaCount: 1
+  image:
+    pullPolicy: IfNotPresent
+    consul_version: 1.4.0
+    configmap2consul_version: latest
+
+  # Resources limits and reservation
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      memory: 100Mi
+
+configmap2consul:
+  conf:
+    interval: 60
+    label_selector: "configmap2consul=True"
+    consul_url: "http://localhost:8500"
+    path: "spring_cloud_config"
+    mode: "spring"
