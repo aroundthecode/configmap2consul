@@ -1,0 +1,56 @@
+---
+kind: Deployment
+apiVersion: apps/v1beta2
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ template "this.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    app: {{ template "this.name" . }}
+    profile: {{ .Values.profile }}
+spec:
+  replicas: {{ .Values.consul.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "this.name" . }}
+      profile: {{ .Values.profile }}
+  template:
+    metadata:
+      labels:
+        chart: {{ template "this.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        app: {{ template "this.name" . }}
+        profile: {{ .Values.profile }}
+    spec:
+      serviceAccountName: cm2c-user
+      containers:
+      - name: consul
+        image: consul:{{ .Values.consul.image.consul_version }}
+        args:
+        - agent
+        - -ui
+        - -server
+        - -bind=127.0.0.1
+        - -client=0.0.0.0
+        env:
+        - name: CONSUL_LOCAL_CONFIG
+          value: '{"bootstrap_expect":1,"server":true}'
+        imagePullPolicy: {{ .Values.consul.image.pullPolicy }}
+      - name: configmap2consul
+        image: "aroundthecode/configmap2consul:{{ .Values.consul.image.configmap2consul_version }}"
+        env:
+        - name: CM2C_INTERVAL
+          value: "{{ .Values.configmap2consul.conf.interval }}"
+        - name: CM2C_NAMESPACE
+          value: "{{ .Release.Namespace }}"
+        - name: CM2C_LABEL_SELECTOR
+          value: "{{ .Values.configmap2consul.conf.label_selector }}"
+        - name: CM2C_CONSUL_URL
+          value: "{{ .Values.configmap2consul.conf.consul_url }}"
+        - name: CM2C_CONSUL_PATH
+          value: "{{ .Values.configmap2consul.conf.path }}"
+        - name: CM2C_MODE
+          value: "{{ .Values.configmap2consul.conf.mode }}"

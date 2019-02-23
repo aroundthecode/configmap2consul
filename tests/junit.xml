@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="4" tests="17" time="1.523"><testcase classname="tests.test_cache" file="tests/test_cache.py" line="-1" name="FLAKE8" time="0.0010330677032470703"><skipped message="file(s) previously passed FLAKE8 checks" type="pytest.skip">/Users/msacchetti/fworks/flcloud/configmap2consul/venv/lib/python3.7/site-packages/pytest_flake8.py:106: file(s) previously passed FLAKE8 checks</skipped></testcase><testcase classname="tests.test_cache" file="tests/test_cache.py" line="3" name="test_read_write" time="0.0012519359588623047"><system-err>2019-02-08 22:33:04,477 |     ERROR | no key mykey found
+</system-err></testcase><testcase classname="tests.test_cache" file="tests/test_cache.py" line="20" name="test_list" time="0.0008647441864013672"></testcase><testcase classname="tests.test_cache" file="tests/test_cache.py" line="43" name="test_array" time="0.001085042953491211"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="-1" name="FLAKE8" time="0.0005800724029541016"><skipped message="file(s) previously passed FLAKE8 checks" type="pytest.skip">/Users/msacchetti/fworks/flcloud/configmap2consul/venv/lib/python3.7/site-packages/pytest_flake8.py:106: file(s) previously passed FLAKE8 checks</skipped></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="4" name="test_cli_help" time="0.0033419132232666016"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="12" name="test_cli_dry" time="0.03347182273864746"><system-err>2019-02-08 22:33:04,491 |      INFO | Single run mode
+2019-02-08 22:33:04,520 |   WARNING | dryrun - skipping consul write for basic-multiple-configmap.txt
+2019-02-08 22:33:04,520 |   WARNING | dryrun - skipping consul write for basic-simple-configmap.txt
+2019-02-08 22:33:04,520 |   WARNING | dryrun - skipping consul write for spring-blue
+2019-02-08 22:33:04,520 |   WARNING | dryrun - skipping consul write for spring-error-configmap
+2019-02-08 22:33:04,520 |   WARNING | dryrun - skipping consul write for spring-green
+2019-02-08 22:33:04,521 |   WARNING | dryrun - skipping consul write for spring-orange
+2019-02-08 22:33:04,521 |   WARNING | dryrun - skipping consul write for spring-simple-configmap
+</system-err></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="18" name="test_cli_basic" time="0.012168169021606445"><system-err>2019-02-08 22:33:04,526 |      INFO | Single run mode
+2019-02-08 22:33:04,534 |      INFO | Skipped [basic-multiple-configmap.txt]
+2019-02-08 22:33:04,534 |      INFO | Skipped [basic-simple-configmap.txt]
+2019-02-08 22:33:04,534 |      INFO | Skipped [spring-blue]
+2019-02-08 22:33:04,534 |      INFO | Skipped [spring-error-configmap]
+2019-02-08 22:33:04,534 |      INFO | Skipped [spring-green]
+2019-02-08 22:33:04,534 |      INFO | Skipped [spring-orange]
+2019-02-08 22:33:04,534 |      INFO | Skipped [spring-simple-configmap]
+</system-err></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="24" name="test_cli_spring" time="0.010901212692260742"><system-err>2019-02-08 22:33:04,539 |      INFO | Single run mode
+2019-02-08 22:33:04,546 |      INFO | Skipped [spring-error-configmap]
+2019-02-08 22:33:04,546 |      INFO | Skipped [spring-simple-configmap]
+2019-02-08 22:33:04,546 |      INFO | Element [/api/v1/namespaces/default/configmaps/basic-multiple-configmap.txt] candidate for eviction, will be removed next loop
+2019-02-08 22:33:04,547 |      INFO | Element [/api/v1/namespaces/default/configmaps/basic-simple-configmap.txt] candidate for eviction, will be removed next loop
+2019-02-08 22:33:04,547 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-blue] candidate for eviction, will be removed next loop
+2019-02-08 22:33:04,547 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-green] candidate for eviction, will be removed next loop
+2019-02-08 22:33:04,548 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-orange] candidate for eviction, will be removed next loop
+</system-err></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="30" name="test_cli_labelsel" time="0.015004158020019531"><system-err>2019-02-08 22:33:04,554 |      INFO | Single run mode
+2019-02-08 22:33:04,561 |      INFO | Skipped [spring-blue]
+2019-02-08 22:33:04,562 |      INFO | Skipped [spring-green]
+2019-02-08 22:33:04,562 |      INFO | Skipped [spring-orange]
+2019-02-08 22:33:04,563 |      INFO | Element [/api/v1/namespaces/default/configmaps/basic-multiple-configmap.txt] already candidate for eviction, removing
+2019-02-08 22:33:04,563 |     ERROR | Could not find entry &apos;items&apos; into {&apos;version&apos;: &apos;258538&apos;}
+2019-02-08 22:33:04,564 |      INFO | Element [/api/v1/namespaces/default/configmaps/basic-simple-configmap.txt] already candidate for eviction, removing
+2019-02-08 22:33:04,564 |     ERROR | Could not find entry &apos;items&apos; into {&apos;version&apos;: &apos;258534&apos;}
+2019-02-08 22:33:04,564 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-error-configmap] candidate for eviction, will be removed next loop
+2019-02-08 22:33:04,565 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-simple-configmap] candidate for eviction, will be removed next loop
+</system-err></testcase><testcase classname="tests.test_configmap2consul" file="tests/test_configmap2consul.py" line="-1" name="FLAKE8" time="0.0011012554168701172"><skipped message="file(s) previously passed FLAKE8 checks" type="pytest.skip">/Users/msacchetti/fworks/flcloud/configmap2consul/venv/lib/python3.7/site-packages/pytest_flake8.py:106: file(s) previously passed FLAKE8 checks</skipped></testcase><testcase classname="tests.test_configmap2consul" file="tests/test_configmap2consul.py" line="3" name="test_consul_client" time="0.0015265941619873047"></testcase><testcase classname="tests.test_configmap2consul" file="tests/test_configmap2consul.py" line="11" name="test_run_spring" time="0.012209177017211914"><system-err>2019-02-08 22:33:04,584 |      INFO | Skipped [spring-blue]
+2019-02-08 22:33:04,584 |      INFO | Skipped [spring-green]
+2019-02-08 22:33:04,584 |      INFO | Skipped [spring-orange]
+2019-02-08 22:33:04,585 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-error-configmap] already candidate for eviction, removing
+2019-02-08 22:33:04,585 |     ERROR | Could not find entry &apos;items&apos; into {&apos;version&apos;: &apos;258545&apos;}
+2019-02-08 22:33:04,586 |      INFO | Element [/api/v1/namespaces/default/configmaps/spring-simple-configmap] already candidate for eviction, removing
+2019-02-08 22:33:04,586 |     ERROR | Could not find entry &apos;items&apos; into {&apos;version&apos;: &apos;258543&apos;}
+</system-err></testcase><testcase classname="tests.test_configmap2consul" file="tests/test_configmap2consul.py" line="22" name="test_run_basic" time="0.009926080703735352"><system-err>2019-02-08 22:33:04,599 |      INFO | Skipped [spring-blue]
+2019-02-08 22:33:04,599 |      INFO | Skipped [spring-green]
+2019-02-08 22:33:04,600 |      INFO | Skipped [spring-orange]
+</system-err></testcase><testcase classname="tests.test_utils" file="tests/test_utils.py" line="-1" name="FLAKE8" time="0.002986907958984375"><skipped message="file(s) previously passed FLAKE8 checks" type="pytest.skip">/Users/msacchetti/fworks/flcloud/configmap2consul/venv/lib/python3.7/site-packages/pytest_flake8.py:106: file(s) previously passed FLAKE8 checks</skipped></testcase><testcase classname="tests.test_utils" file="tests/test_utils.py" line="3" name="test_basic" time="0.002105712890625"></testcase><testcase classname="tests.test_utils" file="tests/test_utils.py" line="8" name="test_spring" time="0.0018422603607177734"></testcase></testsuite>

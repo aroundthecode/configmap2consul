@@ -1,0 +1,20 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: consul
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "this.name" . }}
+    chart: {{ template "this.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+  - name: "ui-http"
+    protocol: TCP
+    port: 8500
+    targetPort: 8500
+  selector:
+    app: {{ template "this.name" . }}
+    profile: {{ .Values.profile }}
