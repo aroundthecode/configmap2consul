@@ -1,6 +1,10 @@
 Configmap2Consul
 ===================
 
+[![Build Status](https://travis-ci.org/aroundthecode/configmap2consul.svg?branch=develop)](https://travis-ci.org/aroundthecode/configmap2consul)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aroundthecode_configmap2consul&metric=alert_status)](https://sonarcloud.io/dashboard?id=aroundthecode_configmap2consul)
+
+
 Daemon to pour Kubernetes configmap on consul K/V
 
 This project takes inspiration from [git2consul](https://github.com/breser/git2consul) project, but aims to replace git repositories with Kubernetes ConfigMaps.

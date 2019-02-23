@@ -10,11 +10,11 @@ def test_read_write():
 
     assert cache.read(key) is None
 
-    ret = cache.check_and_add(key, value)
+    ret = cache.check_and_add(key, {"version": value})
     assert ret is True
-    assert cache.read(key) == value
+    assert cache.read(key) == {"version": value}
 
-    ret = cache.check_and_add(key, value)
+    ret = cache.check_and_add(key, {"version": value})
     assert ret is False
 
 

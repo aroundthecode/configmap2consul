@@ -62,7 +62,7 @@ class ConfigMapCache:
         :return: True if the entry has been added to cache, False if already present
         """
         ret = True
-        if key in self.cache and value['version']  == self.read(key)['version']:
+        if key in self.cache and value['version'] == self.read(key)['version']:
             ret = False
         else:
             self.write(key, value)

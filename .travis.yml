@@ -2,30 +2,46 @@ dist: xenial
 sudo: required
 language: python
 python: 3.6
+  
+addons:
+  sonarcloud:
+    organization: "aroundthecode-github"
+    token: ${SONAR_TOKEN} 
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
 
 env:
-- CHANGE_MINIKUBE_NONE_USER=true
+  global:
+    - CHANGE_MINIKUBE_NONE_USER=true
+    - secure: "DYWWFapYrhLfbFCoGFA7Wn5nIcvS+6ha61UWWvH0KxsELtkydNdJpccmEr6j0BK/5FpWWnrBSJuDxnEEk3LbC8nnAUVjgyl+js5v2DUI5WngRLi7e3wD+3aWCfNAnO4xvggmccOssNj2jM+4VarbdVk040HV8AiHX7pzXgrv2/3fCB1WBT201fjyOMarTJv2+VliII5VgxI4FgsJUlHc7J6Pu6ggFqTSdofUlAIfKV+zhTmwhkBkpI8H/hJe2w0QXFMGor1VF1MDIkGPHBIZjRE+H9y7O4CWGOeHPjPX6l7FSX81NcMiYJEb5ZjjGiSRMXPrefmUkQCGcnLIEyD8Oix/UlwqCZUQCSBnW+kQIGwfUCY51HsAK0h7WfRt/SzC+4MIaxn78XC6LYCQgpwDSXUJx2wAiUUxDVRj/rgjN0D0jSxuzR7sVE99hjNVKkicdWIezggkdMlk/OlPoHKN89C9zoDDTE/4H/SCDGpX4sNEsF5qZr3B/DQ22lx9wT43TAFwmZE0nhR17ZHOyRvQNL7IC7C3p28OVbF8gxw5NqrQyccOxfUNp/bkC8raouuRoxOlNkzeEZQJ8ooP/aLfNCUyq4QdFd1WpaWK5VxRHy24ir/nRFLzXqwwHDB1yoBH134M/eY66HoFzDh/1j8ibpkiDyluscT3/OsC1v2MTJo="
+    - secure: "AcCoFC+47msJ3lZR4Nzb+j9INL2aJTNzpyJvw6cBuC6v262lM/CghSXlTXH+0XJxztigdXBaf8KbJPETdeLa7qRQCiwIZRbviU4maulyBzJE2Sf/dAFKrHyqjpvkDTWThwbK46W/mQxZ8Kt6kmYUDyFtC192cv7Ko1PQ8Xe68F0Q2RiBPbk1hTLx01tRn6zv0LirBK4UZnQpEtddND5g0TijmklC92X8n6xvvqp0tsQuY6yFRlcB1Vqat4lKrIbapgQpIWhub0UH4xxuLZqcuZIi9Gy8zayzrf4kkZ6/nXwPIx5WKXEy2NZAbPR8tA6bm2zZDD3C+p6eT7SQ7wB1AI5/Xu+jTvAk7Kauq2mpnsXoI5YXiuGkMOmD6l/65cm+sIxaFslfl4a164P19RVSIxTeOHhU/g7B6urQKLHChRRUZOTIUoUx61nnMjlDhF7TFUUin2BweyP2aQeZ44SSkBc45w0n/ne/1nAuOPLwoVAfOUTGQb1D0rVIExV7mvd1c72PHlOZDXrk+m5LJw/gVObxmSVKNUAGxCblgfCMeAEXifqaLU0aFIoL/SFsEc74WpgH4Jh0iHBakYo1jWvud99SnGvzxnq0B+5MLYLhK+AHiwZtQf/MD9KNBD8ziFzR8xyojR2wbd9dYf9PuOiu4Whrtl05zrXx3biED7gtn9U=" 
+    - secure: "wRo5fQnVVVxyChUnZds62F9Y7Ge1Re97kdNpJaLnUW+TGprPBgUAdPnyff19s87C0sOR4Q0WcEDgbV+Uswcmk3YLH5szlxrgTgHyYrjp2ArqEDwU/jlBOb8d7u4y4+xmMr1foWjHsXf1TYEblj7w0u269nBgZ/sTnmBrFjsw9j3wbqDYP8irxhkIPPFJVZcNFGtlPSvFU1zD6aq43Y2yeYTjvNQBjlgh6/n8lMjnv6qlq3lwoBOmQVjsV8tl3QCxgpjFTitE7pe/F04JHiiHjoMyyMc+XjSnf9E3HjKbjOBdtLdCTIi+a+3xDLDEUPnJbcRYaGMvq+KHvCkCVN+I5SLFrB7bw05imVP1cXL5dorIKRGUfHJ93LRVsHLqk9+dfD8SE0EEJq7HxAFyR1emWSTVwN7I5IeL4gHidhdPb2N8yVWGaqIbw/VEZrqQfjhiMjXtdcw0XxDso1EY90sZhV6q2gB3KH7RTNgc0vYexUXqlBKhYmtQvian0buvpGdwlbzRnOSpXAfFJ4OlnUNyRcNd10BK6mWFic49gP4Su7RtDxW2yqUK110eR4tgB3AQXFwwEhYonXn7VHJx0CBrbML/X6zSUt96hk5HeOpwTP+ljIOp/hcxO/I69MBK572px8IkOn57RPXI6kdAuy+2zHjyqChiqy7CZcEbtI/rY3Y="
 
-before_script:
-- mkdir $HOME/.kube || true
-- touch $HOME/.kube/config
-- curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.12.4/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
-- curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.33.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
-- minikube version
-- sudo minikube config set WantReportErrorPrompt false
-- sudo minikube start --vm-driver=none --kubernetes-version=v1.12.4 --logtostderr
-- minikube update-context
-- JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+
+before_install:
+  - mkdir $HOME/.kube || true
+  - touch $HOME/.kube/config
+  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.12.4/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+  - curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.33.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+  - minikube version
+  - sudo minikube config set WantReportErrorPrompt false
+  - sudo minikube start --vm-driver=none --kubernetes-version=v1.12.4 --logtostderr
+  - minikube update-context
+  - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
 
 install:
-- kubectl apply -f tests/minikube/configmap2consul.yaml
-- python setup.py install
+  - kubectl apply -f tests/minikube/configmap2consul.yaml
+  - pip install -e ".[test]"
 
 script:
-- kubectl cluster-info
-- kubectl get pods --all-namespaces
-
-- make.sh test
-- make.sh sonar
-- make.sh build
+  - kubectl cluster-info
+  - kubectl get pods --all-namespaces
+  - chmod +x make.sh
+  - ./make.sh test
+  - ./make.sh sonar
+  - ./make.sh build
+  - docker login -u="${DOCKER_HUB_USERNAME}" -p="${DOCKER_HUB_PASSWORD}"
+  - docker push ${DOCKER_HUB_USERNAME}/configmap2consul:latest
 

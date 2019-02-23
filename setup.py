@@ -33,7 +33,7 @@ setup(
 
     # Author details
     author='Michele Sacchetti',
-    author_email='michele.sacchetti@gmail.com',
+    author_email='michele.sacchetti@aroundthecode.org',
 
     # Choose your license
     license='Apache 2.0 License',
