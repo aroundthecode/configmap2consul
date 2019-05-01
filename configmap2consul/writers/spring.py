@@ -14,6 +14,7 @@ class Writer:
 
         log.debug(extras)
 
+
         try:
             ps = extras.get("separator")
         except KeyError:
@@ -26,6 +27,14 @@ class Writer:
         except KeyError:
             version = ""
 
+
+        try:
+            subpath = "/" + cm.config_map['metadata']['labels']['subpath'] + "/"
+            log.info("Found label subpath=%s on configmap %s, using it for subpath", subpath, cm.name())
+        except KeyError:
+            subpath = "/"
+
+
         try:
             app_name = cm.config_map['metadata']['labels']['app']
             log.info("Found label app=%s on configmap %s, using it for path", app_name, cm.name())
@@ -37,7 +46,7 @@ class Writer:
             log.error("Spring writer can be used only with single file ConfigMap [%s]", cm.name())
         else:
             for filename in cm.data():
-                key = basepath + "/" + app_name + version + "/" + filename
+                key = basepath + "/" + app_name + version + subpath + filename
                 data = str(cm.data()[filename])
                 log.debug("Data: %s", data)
                 consul_client.kv.put(key, data)
