@@ -76,7 +76,22 @@ Executable will be started as default command, you can use the following environ
 ```
 A docker container with consul will be started and bound to local port 8500
 
-ToDo: this should be replaced with minikube spawing and manifest deploy
+
+#### Test full sample on minikube
+
+If you have a running minikube instance you can use:
+
+```bash
+./make.sh test_minikube
+```
+
+This will deploy a full set of Configmap samples with different labels set plus a consul instance.
+
+It will then run configmap2consul from cli to import all data into consul.
+
+You can reach consul UI to verify data at http://$(minikube ip):32080/ui
+
+(Automated test on this part in progress :) ) 
 
 ### How things works
 Once started configmap2Consul will invoke K8 API in order to retrieve alla available configMaps matching iven namespace/labelselector.
@@ -103,9 +118,23 @@ This writer is intended to be used in conjunction with [Spring Boot](https://spr
 Each ConfigMap will be written as a SINGLE key into the specified parent path.
 
 E.g. if your configMap contains a file key named "foo.txt",  has been labeled as "app:myservice" and  you configured "test/txt" as your base path, this will be result into
-* /test/txt/myservice/foo.txt
+* /test/txt/myservice/data
 
 containing ConfigMap key data as value.
+
+* If an optional label **"version:myversion"** is attached to Configmap its value will be used to create a profile folder on consul.
+  
+  See https://cloud.spring.io/spring-cloud-consul/single/spring-cloud-consul.html#spring-cloud-consul-config for details.
+  
+  E.g. /test/txt/myservice:myversion/data
+
+  Default separator is "::" but can be changed via CLI options *-s* 
+
+  See https://cloud.spring.io/spring-cloud-consul/single/spring-cloud-consul.html#_customizing for details on spring customizations
+
+* If an optional label **"subpath:otherpath"** is attached to Configmap it will be used to create a subfolder under application folder.
+
+  E.g. /test/txt/myservice:myversion/otherpath/data
 
 ### Performance and caching
 Setting small polling interval provide you very quick consul values update, but can also turn into same properties being written again and agan.

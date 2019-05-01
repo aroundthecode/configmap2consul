@@ -112,7 +112,7 @@ metadata:
   namespace: default
   labels:
     configmap2consul: "True"
-    app: "spring-app"
+    app: "spring-noversion"
 data:
   data: |
     color=green
@@ -144,3 +144,33 @@ metadata:
 data:
   data: |
     color: orange
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-subpath1
+  namespace: default
+  labels:
+    configmap2consul: "True"
+    app: "spring-subpath"
+    version: orange
+    subpath: folder1
+data:
+  data: |
+    subpath: folder one
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-subpath2
+  namespace: default
+  labels:
+    configmap2consul: "True"
+    app: "spring-subpath"
+    version: orange
+    subpath: folder2
+data:
+  data: |
+    subpath: folder two
