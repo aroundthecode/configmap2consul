@@ -52,26 +52,26 @@ def configmap_2_consul(
 
         cm = ConfigMap(i)
 
-        store = cache.check_and_add(cm.self_link(), {"version": cm.resource_version()})
+        store = cache.check_and_add(cm.selfLink, {"version": cm.version})
 
-        log.debug("%s - %s - %s -> %s", cm.name(), cm.self_link(), cm.resource_version, str(store))
+        log.debug("%s - %s - %s -> %s", cm.name, cm.selfLink, cm.version, str(store))
 
         if store:
             if dryrun:
-                log.warning("dryrun - skipping consul write for %s", cm.name())
+                log.warning("dryrun - skipping consul write for %s", cm.name)
             else:
                 items = w.store(consul_client, cm, basepath, separator=separator)
                 if len(items) > 0:
                     cache.write(
-                        cm.self_link(),
+                        cm.selfLink,
                         {
-                            "version": cm.resource_version(),
+                            "version": cm.version,
                             "items": items
                         }
                     )
 
         else:
-            log.info("Skipped [%s]", cm.name())
+            log.info("Skipped [%s]", cm.name)
 
     for i in cache.list():
         if i not in [c['metadata']['self_link'] for c in cmap.to_dict()['items']]:

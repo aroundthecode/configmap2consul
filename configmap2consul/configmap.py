@@ -1,19 +1,39 @@
+import yaml
+
 
 class ConfigMap:
 
-    config_map = {}
+    def __init__(self, cmap={}):
+        self._config_map = cmap
 
-    def __init__(self, cmap):
-        self.config_map = cmap
-
+    @property
     def name(self):
-        return str(self.config_map['metadata']['name'])
+        return str(self._config_map['metadata']['name'])
 
+    @property
+    def labels(self):
+        return self._config_map['metadata']['labels']
+
+    @property
     def data(self):
-        return self.config_map['data']
+        return self._config_map['data']
 
-    def self_link(self):
-        return str(self.config_map['metadata']['self_link'])
+    @property
+    def selfLink(self):
+        return str(self._config_map['metadata']['self_link'])
 
-    def resource_version(self):
-        return str(self.config_map['metadata']['resource_version'])
+    @property
+    def version(self):
+        return str(self._config_map['metadata']['resource_version'])
+
+    def __str__(self):
+        try:
+            y = yaml.safe_dump(self._config_map)
+            return y
+        except yaml.YAMLError:
+            return str(self.name)
+
+    def __getitem__(self, item):
+        if item not in self._config_map:
+            raise KeyError
+        return self._config_map[item]
