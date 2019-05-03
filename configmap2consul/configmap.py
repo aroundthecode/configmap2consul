@@ -14,6 +14,12 @@ class ConfigMap:
     def labels(self):
         return self._config_map['metadata']['labels']
 
+    def label(self, labelname):
+        try:
+            return self.labels[labelname]
+        except KeyError:
+            return None
+
     @property
     def data(self):
         return self._config_map['data']

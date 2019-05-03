@@ -45,12 +45,16 @@ def configmap_2_consul(
     else:
         cmap = k8.list_namespaced_config_map(namespace)
 
-    writer = configmap2consul.utils.import_writer(mode)
-    w = writer()
-
     for i in cmap.to_dict()['items']:
 
         cm = ConfigMap(i)
+
+        mode_by_label = cm.label('mode')
+        if mode_by_label is None or mode_by_label not in ('spring', 'basic'):
+            mode_by_label = mode
+
+        writer = configmap2consul.utils.import_writer(mode)
+        w = writer()
 
         store = cache.check_and_add(cm.selfLink, {"version": cm.version})
 

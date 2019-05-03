@@ -20,20 +20,20 @@ class Writer:
             ps = "::"
 
         try:
-            version = cm['metadata']['labels']['version']
+            version = cm.label('version')
             log.info("Found label version=%s on configmap %s, using it for profile", version, cm.name)
             version = ps + version
         except KeyError:
             version = ""
 
         try:
-            subpath = "/" + cm['metadata']['labels']['subpath'] + "/"
+            subpath = "/" + cm.label('subpath') + "/"
             log.info("Found label subpath=%s on configmap %s, using it for subpath", subpath, cm.name)
         except KeyError:
             subpath = "/"
 
         try:
-            app_name = cm['metadata']['labels']['app']
+            app_name = cm.label('app')
             log.info("Found label app=%s on configmap %s, using it for path", app_name, cm.name)
         except KeyError:
             app_name = cm.name
