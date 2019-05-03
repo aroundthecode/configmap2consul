@@ -14,7 +14,6 @@ class Writer:
 
         log.debug(extras)
 
-
         try:
             ps = extras.get("separator")
         except KeyError:
@@ -27,13 +26,11 @@ class Writer:
         except KeyError:
             version = ""
 
-
         try:
             subpath = "/" + cm.config_map['metadata']['labels']['subpath'] + "/"
             log.info("Found label subpath=%s on configmap %s, using it for subpath", subpath, cm.name())
         except KeyError:
             subpath = "/"
-
 
         try:
             app_name = cm.config_map['metadata']['labels']['app']

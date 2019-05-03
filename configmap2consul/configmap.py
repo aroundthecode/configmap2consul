@@ -17,4 +17,3 @@ class ConfigMap:
 
     def resource_version(self):
         return str(self.config_map['metadata']['resource_version'])
-

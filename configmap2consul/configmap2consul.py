@@ -87,7 +87,7 @@ def configmap_2_consul(
                 cache.remove(i)
             else:
                 log.info("Element [%s] candidate for eviction, will be removed next loop", i)
-                cleanup_cache.write(i, "D");
+                cleanup_cache.write(i, "D")
 
 
 def init_consul_client(consul_url):
