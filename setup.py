@@ -73,6 +73,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
+        'urllib3==1.24.3',
         'click==7.0',
         'schedule==0.5.0',
         'kubernetes==7.0.0',
@@ -81,7 +82,7 @@ setup(
         'sphinx-rtd-theme==0.4.2',
         'sphinx-click==1.4.1'
     ],
- 
+
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example:
