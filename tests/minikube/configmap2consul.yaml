@@ -174,3 +174,26 @@ metadata:
 data:
   data: |
     subpath: folder two
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-minikube
+  namespace: default
+  labels:
+    chart: ""
+    release: "minikube"
+    heritage: ""
+    app: "spring-minikube"
+    profile: "minikube"
+    version: "green"
+    configmap2consul: "True"
+    buildNum: "0"
+data:
+  data: |
+    #####################
+    ## MORE PROPERTIES ##
+    #####################
+    some=more
+    properties=here

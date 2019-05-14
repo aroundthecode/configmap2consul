@@ -24,3 +24,16 @@ def test_run_basic(consul_url):
         basepath="basepath",
         mode="basic",
         dryrun=False)
+
+
+@pytest.mark.unit
+def test_minikube(consul_url):
+
+    consul_client = init_consul_client(consul_url)
+    configmap_2_consul(
+        namespace="default",
+        labels="release=minikube",
+        consul_client=consul_client,
+        basepath="basepath",
+        mode="spring",
+        dryrun=False)
