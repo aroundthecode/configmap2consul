@@ -24,7 +24,7 @@ test_minikube(){
 }
 
 sonar(){
-    pytest --flake8 --cov=configmap2consul --junitxml tests/junit.xml --cov-report xml
+    pytest --flake8 --cov=configmap2consul --junitxml tests/junit.xml --cov-report xml  --consul_url "http://$(minikube ip):32080"
     coverage xml -i
     sonar-scanner -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectKey=aroundthecode_configmap2consul -Dsonar.organization=aroundthecode-github -Dsonar.host.url=https://sonarcloud.io
 
