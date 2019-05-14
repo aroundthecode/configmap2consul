@@ -39,7 +39,7 @@ script:
   - kubectl cluster-info
   - kubectl get pods --all-namespaces
   - chmod +x make.sh
-  - ./make.sh test
+  - ./make.sh test_minikube
   - ./make.sh sonar
   - ./make.sh build
   - docker login -u="${DOCKER_HUB_USERNAME}" -p="${DOCKER_HUB_PASSWORD}"

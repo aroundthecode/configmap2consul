@@ -10,7 +10,7 @@ consul(){
 }
 
 test(){
-	pytest --flake8 --cov=configmap2consul --cov-report term-missing
+	pytest --flake8 --cov=configmap2consul --cov-report term-missing --ignore='tests/test_minikube.py'
 }
 
 test_minikube(){
@@ -18,10 +18,9 @@ test_minikube(){
 	kubectl apply -f tests/minikube/configmap2consul.yaml
 	echo "sleep 20s to wait consul startup"
 	sleep 20
-	echo "running configmap2consul to populate consul"
-	configmap2consul -n default -i -1 -c http://$(minikube ip):32080 -m spring -p basepath
-	# TODO run test to check consul is ok
-	# kubectl delete -f tests/minikube/configmap2consul.yaml
+	echo "running tests"
+	pytest --flake8 --cov=configmap2consul --cov-report term-missing --consul_url "http://$(minikube ip):32080"
+	kubectl delete -f tests/minikube/configmap2consul.yaml
 }
 
 sonar(){
