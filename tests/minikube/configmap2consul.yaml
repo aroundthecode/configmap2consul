@@ -56,53 +56,27 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: basic-simple-configmap.txt
+  name: basic-simple-configmap
   namespace: default
   labels:
-    mode: "basic"
+    configmap2consul: "True"
 data:
-  lorem_ipsum.txt: |
+  lorem-ipsum.txt: |
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: basic-multiple-configmap.txt
+  name: basic-multiple-configmap
   namespace: default
   labels:
-    mode: "basic"
+    configmap2consul: "True"
 data:
-  lorem_ipsum-1.txt: |
+  lorem-ipsum-1.txt: |
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  lorem_ipsum-2.txt: |
+  lorem-ipsum-2.txt: |
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: spring-simple-configmap
-  namespace: default
-  labels:
-    mode: "spring"
-data:
-  data: |
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: spring-error-configmap
-  namespace: default
-  labels:
-    mode: "spring"
-data:
-  data: |
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  data2: |
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 ---
 apiVersion: v1
@@ -188,7 +162,6 @@ metadata:
     app: "spring-minikube"
     profile: "minikube"
     version: "green"
-    configmap2consul: "True"
     buildNum: "0"
 data:
   data: |

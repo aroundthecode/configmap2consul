@@ -36,6 +36,14 @@ This will eliminate any misalignment between your service code and configuration
 Once all ConfigMap has been deployed a single instance of Configmap2Consul will take care to pour them all into Consul exaclty where your service is expected to find them for reading
 If different version of the same service are deployed at once as dark release, you can manipulate your ConfigMap to store configuration as different K/V entries.
 
+### Release Note
+
+* **v.2.0.0** Only label-based mode (**Breaks breakward compatibility with 1.x if using simple mode** ) 
+
+* **v.1.1.0** Adding subpath management in spring mode
+
+* **v.1.0.0** Working version with 2 mode, simple and spring with version managemente
+
 ### Helm Chart
 You can find a Helm chart to deploy ConfigMap2Consul as a Consul sidecar under the **helm** folder
 ###Getting Started
@@ -48,16 +56,35 @@ All subsequent make commands are supposed to be run withing virtualenv
 
 #### Run test with coverage
 
+In order to run all tests successfully you must first create a Minikube enviroment:
+
 ```bash
-./make.sh test
+./make.sh start_minikube
 ```
-In order to run all tests successfully you must first create a Minikube enviroment and deploy the manifest under **tests/minikube/configmap2consul.yaml**
+
+Once you have a running minikube instance you can use:
+
+```bash
+./make.sh test_minikube
+```
+
+This will deploy a full set of ConfigMap samples with different labels set plus a consul instance.
+
+It will then run pytest to start configmap2consul to import all data into consul and verify K/V insertion.
+
+Finally it will cleanup all resources to leave a clean minikube for next test
+
+You can reach consul UI to verify data at http://$(minikube ip):32080/ui
+
+(comment **kubectl delete** command from make.sh if you want your test not to cleanup environment once completed)
+
 
 #### Build docker image
 
 ```bash
 ./make.sh build
 ```
+
 Docker image for configmap2Consul will be build and tagged as **configmap2consul:latest**.
 
 Executable will be started as default command, you can use the following environment variables con configure its behaviour 
@@ -75,73 +102,52 @@ Executable will be started as default command, you can use the following environ
 ./make.sh consul
 ```
 A docker container with consul will be started and bound to local port 8500
+(Deprecated, use minikube deploy instead)
 
-
-#### Test full sample on minikube
-
-If you have a running minikube instance you can use:
-
-```bash
-./make.sh test_minikube
-```
-
-This will deploy a full set of Configmap samples with different labels set plus a consul instance.
-
-It will then run configmap2consul from cli to import all data into consul.
-
-You can reach consul UI to verify data at http://$(minikube ip):32080/ui
-
-(Automated test on this part in progress :) ) 
 
 ### How things works
-Once started configmap2Consul will invoke K8 API in order to retrieve alla available configMaps matching iven namespace/labelselector.
-Once found it can use different writers in order to pour information into target Consul server
+Once started configmap2Consul will invoke K8 API in order to retrieve all available ConfigMaps matching given namespace/labelselector and pour information into target Consul server. 
 
-#### Basic mode
-This is the simplest writer.
-It writes **ALL** entries specified into each ConfigMap as separate key into the parent path specified.
-
-E.g. if your configMap contains two files keys named "foo.txt" and "bar.txt" and you configured "test/txt" as your base path, this will be result into two separate keys
-* /test/txt/foo.txt
-* /test/txt/bar.txt
-
-each of them containing ConfigMap key data as value.
+Its best application is in conjunction with [Spring Boot](https://spring.io/projects/spring-boot) microservices using [Spring Cloud Consul](https://spring.io/projects/spring-cloud-consul) to retrieve their configuration from consul.
 
 
-#### Spring mode
-This writer is intended to be used in conjunction with [Spring Boot](https://spring.io/projects/spring-boot) microservices using [Spring Cloud Consul](https://spring.io/projects/spring-cloud-consul) to retrieve their configuration from consul.
+#### ~~Basic mode~~
 
-**Note:** Using this mode requires some additional care on your ConfigMaps:
-* each ConfigMap must contains **ONLY ONE** file key 
-* ConfigMap are expected to be tagged with a **"app:myservice"** label, where myservice is the service name you used into your spring boot consul configuration
+Basic mode has been removed since v.2.0.0, you can achieve same behaviour using proper ConfigMaps labeling (see below).
 
-Each ConfigMap will be written as a SINGLE key into the specified parent path.
+#### Labeling
 
-E.g. if your configMap contains a file key named "foo.txt",  has been labeled as "app:myservice" and  you configured "test/txt" as your base path, this will be result into
-* /test/txt/myservice/data
+ConfigMap2Consul will use labels attached to ConfigMaps in order to understand how to import data into consul
 
-containing ConfigMap key data as value.
+* Each file key contained into ConfigMap will become a different key entry into consul
 
-* If an optional label **"version:myversion"** is attached to Configmap its value will be used to create a profile folder on consul.
+* Base path for all K/V is defined at configmap2consul startup
+
+* Label **app** is used to define the parent folder for all files defined within Configmap 
+
+  E.g. if your configMap containing a file key named "foo.txt", has "app:myservice" label and you configured "test/txt" as your base path, this will be result into /test/txt/myservice/foo.txt containing ConfigMap key data as value.
+
+* Label **version** is used to specify a profile for your app. 
   
   See https://cloud.spring.io/spring-cloud-consul/single/spring-cloud-consul.html#spring-cloud-consul-config for details.
   
-  E.g. /test/txt/myservice:myversion/data
+  E.g. if your configMap has additional "verson:myversion" label, this will be result into /test/txt/myservice:myversion/foo.txt
 
-  Default separator is "::" but can be changed via CLI options *-s* 
+  Default profile separator is "::" but can be changed via CLI options *-s* 
 
   See https://cloud.spring.io/spring-cloud-consul/single/spring-cloud-consul.html#_customizing for details on spring customizations
 
-* If an optional label **"subpath:otherpath"** is attached to Configmap it will be used to create a subfolder under application folder.
+* Label **"subpath** is used to create additional subfolder into application path.
 
-  E.g. /test/txt/myservice:myversion/otherpath/data
+  E.g. if your configMap has additional "subpath:otherpath" label, this will be result into /test/txt/myservice:myversion/otherpath/foo.txt
+    
 
 ### Performance and caching
-Setting small polling interval provide you very quick consul values update, but can also turn into same properties being written again and agan.
+Setting small polling interval provide you very quick consul values update, but can also turn into same properties being written again and again.
 
 So the configmap2consul daemon saves ConfigMap **SelfLink** and **ResourceVersion** in an internal cache, if upon a new polling loop a ConfigMap is already present in cache, the Consul K/V entry will not be overwritten.
 
-This also allow you to edit Consul value for testing before consolidating and persist them into a new ConfigMap version.
+This also allows you to edit Consul value for testing before consolidating and persisting them into a new ConfigMap version.
 
 ### Cleanup
 Once you delete your configmap you expect your consul entry to be cleaned up as well.

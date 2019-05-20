@@ -2,7 +2,7 @@ import schedule
 import time
 import click
 
-from configmap2consul.configmap2consul import *
+from configmap2consul.configmap2consul import configmap_2_consul, logging, init_consul_client
 
 log = logging.getLogger("cli")
 log_format = "%(asctime)s | %(levelname)9s | %(message)s"
@@ -37,11 +37,6 @@ CLICK_CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               type=str,
               default="test",
               help="Consul path for stored K/V")
-@click.option('--mode', '-m',
-              required=True,
-              type=str,
-              default="basic",
-              help="Write mode, currently supports 'basic' and 'spring'")
 @click.option('--separator', '-s',
               required=False,
               default="::",
@@ -50,7 +45,7 @@ CLICK_CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.option("--dryrun", "-d",
               is_flag=True,
               help="Do not create consul data")
-def main(namespace, interval, labels, consul_url, basepath, mode, separator, dryrun):
+def main(namespace=None, interval=None, labels=None, consul_url=None, basepath=None, separator=None, dryrun=None):
 
     consul_client = init_consul_client(consul_url)
 
@@ -61,7 +56,6 @@ def main(namespace, interval, labels, consul_url, basepath, mode, separator, dry
             labels,
             consul_client,
             basepath,
-            mode,
             separator,
             dryrun)
 
@@ -73,7 +67,6 @@ def main(namespace, interval, labels, consul_url, basepath, mode, separator, dry
             labels,
             consul_client,
             basepath,
-            mode,
             separator,
             dryrun)
 
@@ -84,7 +77,6 @@ def main(namespace, interval, labels, consul_url, basepath, mode, separator, dry
             labels,
             consul_client,
             basepath,
-            mode,
             separator,
             dryrun)
 

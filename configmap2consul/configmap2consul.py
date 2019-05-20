@@ -4,7 +4,7 @@ import consul
 import urllib3
 from configmap2consul.cache import ConfigMapCache
 from configmap2consul.configmap import ConfigMap
-import configmap2consul.utils
+from configmap2consul.writer import Writer
 
 urllib3.disable_warnings()
 log = logging.getLogger("configmap2consul")
@@ -19,6 +19,7 @@ k8 = client.CoreV1Api()
 
 cache = ConfigMapCache()
 cleanup_cache = ConfigMapCache()
+w = Writer()
 
 
 def configmap_2_consul(
@@ -26,7 +27,6 @@ def configmap_2_consul(
         labels="",
         consul_client=None,
         basepath="/",
-        mode="basic",
         separator="::",
         dryrun=True):
     """
@@ -36,7 +36,6 @@ def configmap_2_consul(
     :param labels: label to use as filter
     :param consul_client: consul client used to store k/v
     :param basepath: base path where K7v will be stored
-    :param mode: writer mode
     :param separator: string to use as separator for profile tag
     :param dryrun: if True will just read from Kubernetes but not write to consul
     """
@@ -45,33 +44,30 @@ def configmap_2_consul(
     else:
         cmap = k8.list_namespaced_config_map(namespace)
 
-    writer = configmap2consul.utils.import_writer(mode)
-    w = writer()
-
     for i in cmap.to_dict()['items']:
 
         cm = ConfigMap(i)
 
-        store = cache.check_and_add(cm.self_link(), {"version": cm.resource_version()})
+        if dryrun:
+            log.warning("dryrun - skipping consul write for %s", cm.name)
+            store = False
+        else:
+            store = cache.check_and_add(cm.self_link, {"version": cm.resource_version})
 
-        log.debug("%s - %s - %s -> %s", cm.name(), cm.self_link(), cm.resource_version, str(store))
+        log.debug("%s - %s - %s -> %s", cm.name, cm.self_link, cm.resource_version, str(store))
 
         if store:
-            if dryrun:
-                log.warning("dryrun - skipping consul write for %s", cm.name())
-            else:
-                items = w.store(consul_client, cm, basepath, separator=separator)
-                if len(items) > 0:
-                    cache.write(
-                        cm.self_link(),
-                        {
-                            "version": cm.resource_version(),
-                            "items": items
-                        }
-                    )
-
+            items = w.store(consul_client, cm, basepath, separator=separator)
+            if len(items) > 0:
+                cache.write(
+                    cm.self_link,
+                    {
+                        "version": cm.resource_version,
+                        "items": items
+                    }
+                )
         else:
-            log.info("Skipped [%s]", cm.name())
+            log.info("Skipped [%s]", cm.name)
 
     for i in cache.list():
         if i not in [c['metadata']['self_link'] for c in cmap.to_dict()['items']]:
@@ -87,7 +83,7 @@ def configmap_2_consul(
                 cache.remove(i)
             else:
                 log.info("Element [%s] candidate for eviction, will be removed next loop", i)
-                cleanup_cache.write(i, "D");
+                cleanup_cache.write(i, "D")
 
 
 def init_consul_client(consul_url):

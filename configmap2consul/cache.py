@@ -26,7 +26,7 @@ class ConfigMapCache:
         :param key: key to be removed
         :return: removed element, None if key not present
         """
-        return self.cache.pop(key, None);
+        return self.cache.pop(key, None)
 
     def read(self, key):
         """

@@ -23,7 +23,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.1.1',
+    version='2.0.0',
 
     description='ConfigMap-2-Consul',
     long_description="Daemon to pour Kubernetes ConfigMaps to Consul K/V",
@@ -44,7 +44,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -58,7 +58,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='consul kubenrnetes',
+    keywords='consul kubernetes spring',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
