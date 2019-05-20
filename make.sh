@@ -13,6 +13,10 @@ test(){
 	pytest --flake8 --cov=configmap2consul --cov-report term-missing --ignore='tests/test_minikube.py'
 }
 
+start_minikube(){
+    minikube start --memory 10240 --cpus 4 --kubernetes-version v1.12.4 --feature-gates="PersistentLocalVolumes=true"
+}
+
 test_minikube(){
     echo "create minikube elements"
 	kubectl apply -f tests/minikube/configmap2consul.yaml

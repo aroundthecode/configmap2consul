@@ -10,19 +10,12 @@ class Writer:
             consul_client.kv.delete(key, False)
             log.info("Removed [%s]", key)
 
-    def store(self, consul_client, cm: ConfigMap, basepath, **extras):
-
-        log.debug(extras)
-
-        try:
-            ps = extras.get("separator")
-        except KeyError:
-            ps = "::"
+    def store(self, consul_client=None, cm: ConfigMap=None, basepath="/", separator="::"):
 
         try:
             version = cm['metadata']['labels']['version']
             log.info("Found label version=%s on configmap %s, using it for profile", version, cm.name)
-            version = ps + version
+            version = separator + version
         except KeyError:
             version = ""
 
@@ -39,14 +32,11 @@ class Writer:
             app_name = cm.name
 
         ret = []
-        if len(cm.data) > 1:
-            log.error("Spring writer can be used only with single file ConfigMap [%s]", cm.name)
-        else:
-            for filename in cm.data:
-                key = basepath + "/" + app_name + version + subpath + filename
-                data = str(cm.data[filename])
-                log.debug("Data: %s", data)
-                consul_client.kv.put(key, data)
-                log.info("Wrote [%s]", key)
-                ret.append(key)
+        for filename in cm.data:
+            key = basepath + "/" + app_name + version + subpath + filename
+            data = str(cm.data[filename])
+            log.debug("Data: %s", data)
+            consul_client.kv.put(key, data)
+            log.info("Wrote [%s]", key)
+            ret.append(key)
         return ret

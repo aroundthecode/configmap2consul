@@ -19,11 +19,11 @@ class ConfigMap:
         return self._config_map['data']
 
     @property
-    def selfLink(self):
+    def self_link(self):
         return str(self._config_map['metadata']['self_link'])
 
     @property
-    def version(self):
+    def resource_version(self):
         return str(self._config_map['metadata']['resource_version'])
 
     def __str__(self):
