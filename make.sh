@@ -28,8 +28,16 @@ test_minikube(){
 }
 
 sonar(){
+    echo "create minikube elements"
+	kubectl apply -f tests/minikube/configmap2consul.yaml
+	echo "sleep 20s to wait consul startup"
+	sleep 20
+	echo "running tests with sonar report format"
     pytest --flake8 --cov=configmap2consul --junitxml tests/junit.xml --cov-report xml  --consul_url "http://$(minikube ip):32080"
+    kubectl delete -f tests/minikube/configmap2consul.yaml
+    echo "converting coverage in sonar format"
     coverage xml -i
+    echo "invoking sonar scanner"
     sonar-scanner -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectKey=aroundthecode_configmap2consul -Dsonar.organization=aroundthecode-github -Dsonar.host.url=https://sonarcloud.io
 
 }
