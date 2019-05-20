@@ -94,7 +94,6 @@ Executable will be started as default command, you can use the following environ
 * **CM2C_LABEL_SELECTOR** (Default:"") Label selector to be applied for filtering (key=value, just one supported at the moment)
 * **CM2C_CONSUL_URL** (Default:"http://localhost:8500") Consul url to submit K/V write requests
 * **CM2C_CONSUL_PATH** (Default:"test") Default parent path for k/v data (see different mode section for details)
-* **CM2C_MODE** (Default:"spring") Default configmap2consul mode
 
 #### Start a containerized consul for testing
 

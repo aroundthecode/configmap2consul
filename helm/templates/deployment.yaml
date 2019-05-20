@@ -52,5 +52,3 @@ spec:
           value: "{{ .Values.configmap2consul.conf.consul_url }}"
         - name: CM2C_CONSUL_PATH
           value: "{{ .Values.configmap2consul.conf.path }}"
-        - name: CM2C_MODE
-          value: "{{ .Values.configmap2consul.conf.mode }}"

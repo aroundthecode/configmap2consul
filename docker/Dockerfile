@@ -1,6 +1,6 @@
 FROM python:3.7.2-alpine3.7
 
-LABEL maintainer="michele.sacchetti@gmail.com"
+LABEL maintainer="michele.sacchetti@aroundthecode.org"
 
 WORKDIR /tmp
 COPY . .
@@ -15,7 +15,7 @@ RUN \
 
 
 FROM python:3.7.2-alpine3.7
-LABEL maintainer="michele.sacchetti@gmail.com"
+LABEL maintainer="michele.sacchetti@aroundthecode.org"
 
 ENV CM2C_INTERVAL="5" \
   CM2C_LOG_LEVEL="info" \
@@ -23,7 +23,6 @@ ENV CM2C_INTERVAL="5" \
   CM2C_LABEL_SELECTOR="" \
   CM2C_CONSUL_URL="http://localhost:8500" \
   CM2C_CONSUL_PATH="test" \
-  CM2C_MODE="spring"
 
 COPY --from=0 /tmp/wheels/* /tmp/
 ADD ./docker/entrypoint.sh /entrypoint.sh
