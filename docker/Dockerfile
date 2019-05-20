@@ -22,7 +22,7 @@ ENV CM2C_INTERVAL="5" \
   CM2C_NAMESPACE="default" \
   CM2C_LABEL_SELECTOR="" \
   CM2C_CONSUL_URL="http://localhost:8500" \
-  CM2C_CONSUL_PATH="test" \
+  CM2C_CONSUL_PATH="test" 
 
 COPY --from=0 /tmp/wheels/* /tmp/
 ADD ./docker/entrypoint.sh /entrypoint.sh
