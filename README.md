@@ -56,14 +56,28 @@ All subsequent make commands are supposed to be run withing virtualenv
 
 #### Run test with coverage
 
-```bash
-./make.sh test
-```
-In order to run all tests successfully you must first create a Minikube enviroment and deploy the manifest under **tests/minikube/configmap2consul.yaml**
+In order to run all tests successfully you must first create a Minikube enviroment:
 
 ```bash
 ./make.sh start_minikube
 ```
+
+Once you have a running minikube instance you can use:
+
+```bash
+./make.sh test_minikube
+```
+
+This will deploy a full set of ConfigMap samples with different labels set plus a consul instance.
+
+It will then run pytest to start configmap2consul to import all data into consul and verify K/V insertion.
+
+Finally it will cleanup all resources to leave a clean minikube for next test
+
+You can reach consul UI to verify data at http://$(minikube ip):32080/ui
+
+(comment **kubectl delete** command from make.sh if you want your test not to cleanup environment once completed)
+
 
 #### Build docker image
 
@@ -88,22 +102,7 @@ Executable will be started as default command, you can use the following environ
 ./make.sh consul
 ```
 A docker container with consul will be started and bound to local port 8500
-
-
-#### Test full sample on minikube
-
-If you have a running minikube instance you can use:
-
-```bash
-./make.sh test_minikube
-```
-
-This will deploy a full set of Configmap samples with different labels set plus a consul instance.
-
-It will then run pytest to start configmap2consul to import all data into consul and verify K/V insertion.
-
-You can reach consul UI to verify data at http://$(minikube ip):32080/ui
-
+(Deprecated, use minikube deploy instead)
 
 
 ### How things works
@@ -114,7 +113,7 @@ Its best application is in conjunction with [Spring Boot](https://spring.io/proj
 
 #### ~~Basic mode~~
 
-Basic mode has been removed since v.2.0.0, you can achieve same behaviour using proper ConfigMaps laballing.
+Basic mode has been removed since v.2.0.0, you can achieve same behaviour using proper ConfigMaps labeling (see below).
 
 #### Labeling
 
