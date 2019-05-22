@@ -19,14 +19,14 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'ConifgMap2Consul'
+project = 'ConfigMap2Consul'
 copyright = '2018, Michele Sacchetti'
 author = 'Michele Sacchetti'
 
 # The short X.Y version
-version = ''
+version = '2'
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = '2.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -109,7 +109,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ConifgMap2Consuldoc'
+htmlhelp_basename = 'ConfigMap2Consuldoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -136,7 +136,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ConifgMap2Consul.tex', 'ConifgMap2Consul Documentation',
+    (master_doc, 'ConfigMap2Consul.tex', 'ConfigMap2Consul Documentation',
      'Michele Sacchetti', 'manual'),
 ]
 
@@ -146,7 +146,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'conifgmap2consul', 'ConifgMap2Consul Documentation',
+    (master_doc, 'configmap2consul', 'ConfigMap2Consul Documentation',
      [author], 1)
 ]
 
@@ -157,8 +157,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ConifgMap2Consul', 'ConifgMap2Consul Documentation',
-     author, 'ConifgMap2Consul', 'One line description of project.',
+    (master_doc, 'ConfigMap2Consul', 'ConfigMap2Consul Documentation',
+     author, 'ConfigMap2Consul', 'One line description of project.',
      'Miscellaneous'),
 ]
 
