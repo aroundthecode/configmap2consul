@@ -77,10 +77,7 @@ setup(
         'click==7.0',
         'schedule==0.5.0',
         'kubernetes==7.0.0',
-        'python-consul==1.1.0',
-        'sphinx==1.8.2',
-        'sphinx-rtd-theme==0.4.2',
-        'sphinx-click==1.4.1'
+        'python-consul==1.1.0'
     ],
 
     # List additional groups of dependencies here (e.g. development
