@@ -8,7 +8,7 @@ COPY . .
 RUN \
     mkdir -p /tmp/wheels && \
     apk add gcc musl-dev python3-dev libffi-dev openssl-dev && \
-    pip wheel click==7.0 schedule==0.5.0 kubernetes==7.0.0 python-consul==1.1.0 sphinx==1.8.2 sphinx-rtd-theme==0.4.2 sphinx-click==1.4.1 \
+    pip wheel urllib3==1.24.3 click==7.0 schedule==0.5.0 kubernetes==7.0.0 python-consul==1.1.0 sphinx==1.8.2 sphinx-rtd-theme==0.4.2 sphinx-click==1.4.1 \
     --wheel-dir=/tmp/wheels --no-cache-dir && \
     python3 setup.py sdist bdist_wheel && \
 	mv dist/*.whl /tmp/wheels
