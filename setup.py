@@ -90,11 +90,11 @@ setup(
      extras_require={
     #    'dev': ['check-manifest'],
         'test': [
-            'coverage',
-            'pytest',
-            'pytest-flake8',
-            'pytest-xdist',
-            'pytest-cov'
+            'coverage==4.5.3',
+            'pytest==4.4.1',
+            'pytest-flake8==1.0.4',
+            'pytest-xdist==1.28.0',
+            'pytest-cov==2.6.1'
         ],
      },
 
