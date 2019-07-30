@@ -172,7 +172,7 @@ metadata:
     version: orange
     subpath: folder2
 data:
-  data: |
+  data.txt: |
     subpath: folder two
 
 ---
@@ -187,7 +187,7 @@ metadata:
     version: orange
     subpath: folder2
 data:
-  data: |
+  data.json: |-
     {
       "type": "description",
       "label": "€ al mese",

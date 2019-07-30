@@ -43,6 +43,6 @@ script:
   - ./make.sh sonar
   - ./make.sh build
   - docker login -u="${DOCKER_HUB_USERNAME}" -p="${DOCKER_HUB_PASSWORD}"
-  - docker tag ${DOCKER_HUB_USERNAME}/configmap2consul:latest ${DOCKER_HUB_USERNAME}/configmap2consul:1.1.0
-  - docker push ${DOCKER_HUB_USERNAME}/configmap2consul:1.0.0
+  - docker tag ${DOCKER_HUB_USERNAME}/configmap2consul:latest ${DOCKER_HUB_USERNAME}/configmap2consul:1.1.1
+  - docker push ${DOCKER_HUB_USERNAME}/configmap2consul:1.1.1
 
