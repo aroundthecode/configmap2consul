@@ -19,22 +19,43 @@ start_minikube(){
 
 test_minikube(){
     echo "create minikube elements"
-	kubectl apply -f tests/minikube/configmap2consul.yaml
+	kubectl apply -f tests/minikube/consul.yaml
+	kubectl apply -f tests/minikube/configmaps.yaml
 	echo "sleep 20s to wait consul startup"
 	sleep 20
 	echo "running tests"
 	pytest --flake8 --cov=configmap2consul --cov-report term-missing --consul_url "http://$(minikube ip):32080"
-	kubectl delete -f tests/minikube/configmap2consul.yaml
+	kubectl delete -f tests/minikube/configmaps.yaml
+	kubectl delete -f tests/minikube/consul.yaml
 }
 
+test_helm(){
+    ##### HELM INSTALL #####
+    if [ ! -f /usr/local/bin/helm ]
+    then
+      # Install Helm:
+      wget https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz
+      tar -xvzf helm-v2.10.0-linux-amd64.tar.gz
+      sudo mv linux-amd64/helm /usr/local/bin/helm
+      helm init
+    else
+      echo "Helm found...skipping install"
+    fi
+    helm template helm
+    helm package helm
+    helm install
+
+}
 sonar(){
     echo "create minikube elements"
-	kubectl apply -f tests/minikube/configmap2consul.yaml
+	kubectl apply -f tests/minikube/consul.yaml
+	kubectl apply -f tests/minikube/configmaps.yaml
 	echo "sleep 20s to wait consul startup"
 	sleep 20
 	echo "running tests with sonar report format"
     pytest --flake8 --cov=configmap2consul --junitxml tests/junit.xml --cov-report xml  --consul_url "http://$(minikube ip):32080"
-    kubectl delete -f tests/minikube/configmap2consul.yaml
+    kubectl delete -f tests/minikube/configmaps.yaml
+	kubectl delete -f tests/minikube/consul.yaml
     echo "converting coverage in sonar format"
     coverage xml -i
     echo "invoking sonar scanner"
