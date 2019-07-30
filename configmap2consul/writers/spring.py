@@ -47,9 +47,12 @@ class Writer:
         else:
             for filename in cm.data():
                 key = basepath + "/" + app_name + version + subpath + filename
-                data = str(cm.data()[filename])
-                log.debug("Data: %s", data)
-                consul_client.kv.put(key, data)
-                log.info("Wrote [%s]", key)
-                ret.append(key)
+                try:
+                    data = str(cm.data()[filename], 'utf-8')
+                    log.debug("Data: %s", data)
+                    consul_client.kv.put(key, data)
+                    log.info("Wrote [%s]", key)
+                    ret.append(key)
+                except Exception as e:
+                    log.error("Error [%s] saving [%s]" % (e, key))
         return ret
