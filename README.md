@@ -40,6 +40,8 @@ If different version of the same service are deployed at once as dark release, y
 
 * **v.2.0.0** Only label-based mode (**Breaks breakward compatibility with 1.x if using simple mode** ) 
 
+* **v.1.1.1** Hotfix to manage UTF-8 characters and avoid error blocking other ConfigMaps ingestion
+
 * **v.1.1.0** Adding subpath management in spring mode
 
 * **v.1.0.0** Working version with 2 mode, simple and spring with version managemente
