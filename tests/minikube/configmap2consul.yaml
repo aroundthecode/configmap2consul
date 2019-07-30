@@ -170,3 +170,25 @@ data:
     #####################
     some=more
     properties=here
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-utf8
+  namespace: default
+  labels:
+    configmap2consul: "True"
+    app: "spring-subpath"
+    version: orange
+    subpath: folder2
+data:
+  data.json: |-
+    {
+      "type": "description",
+      "label": "€ al mese",
+      "textSize": "m",
+      "textColor": "#666666",
+      "fontWeight": "regular"
+    }
+
