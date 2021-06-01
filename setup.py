@@ -73,7 +73,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'urllib3==1.24.3',
+        'urllib3==1.26.5',
         'click==7.0',
         'schedule==0.5.0',
         'kubernetes==7.0.0',
